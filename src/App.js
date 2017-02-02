@@ -16,6 +16,13 @@ class App extends Component {
         showImages: false
       };
   }
+  onClickHome(){
+      this.setState({
+          showPatients: true,
+          showStudies: false,
+          showImages: false
+      });
+  }
   onPatientSelect(){
       console.log('calling the onpatientselect');
     this.setState({
@@ -34,22 +41,22 @@ class App extends Component {
     if(this.state.showPatients==true) {
         return (
             <div className="App">
-              <Header/>
+              <Header onClickHome={this.onClickHome.bind(this)}/>
               <PatientsContainer onPatientSelect={this.onPatientSelect.bind(this)}/>
             </div>
         );
     } else if(this.state.showStudies==true){
         return (
             <div className="App">
-                <Header/>
+                <Header onClickHome={this.onClickHome.bind(this)}/>
                 <StudiesContainer onStudySelect={this.onStudySelect.bind(this)}/>
             </div>
         );
     } else if(this.state.showImages==true){
         return (
             <div className="App">
-              <Header/>
-              <ImagesContainer/>
+                <Header onClickHome={this.onClickHome.bind(this)}/>
+                <ImagesContainer/>
             </div>
         );
     }
