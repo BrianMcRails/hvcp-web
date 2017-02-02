@@ -1,21 +1,58 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Header from './Header.js';
 import ImagesContainer from './ImagesContainer.js';
+import PatientsContainer from './PatientsContainer.js';
+import StudiesContainer from './StudiesContainer.js';
+
 
 class App extends Component {
+  constructor(props){
+    super(props);
+      this.state={
+        showPatients: true,
+        showStudies: false,
+        showImages: false
+      };
+  }
+  onPatientSelect(){
+      console.log('calling the onpatientselect');
+    this.setState({
+      showPatients: false,
+      showStudies: true
+    });
+  }
+    onStudySelect(){
+        console.log('calling the onstudyselect');
+        this.setState({
+            showStudies: false,
+            showImages: true
+        });
+    }
   render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src='https://media.glassdoor.com/sqll/155178/lumedx-squarelogo-1373582727679.png' className="App-logo" alt="logo" />
-          <h2>HealthView CardioPACS</h2>
-        </div>
-        <p className="App-intro">
-        </p>
-        <ImagesContainer />
-      </div>
-    );
+    if(this.state.showPatients==true) {
+        return (
+            <div className="App">
+              <Header/>
+              <PatientsContainer onPatientSelect={this.onPatientSelect.bind(this)}/>
+            </div>
+        );
+    } else if(this.state.showStudies==true){
+        return (
+            <div className="App">
+                <Header/>
+                <StudiesContainer onStudySelect={this.onStudySelect.bind(this)}/>
+            </div>
+        );
+    } else if(this.state.showImages==true){
+        return (
+            <div className="App">
+              <Header/>
+              <ImagesContainer/>
+            </div>
+        );
+    }
   }
 }
 

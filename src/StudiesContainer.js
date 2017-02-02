@@ -1,10 +1,10 @@
 import React, {PropTypes} from 'react';
 import axios from 'axios';
-import ReportListItem from './ReportListItem.js';
 import Video from 'react-html5video';
 const url_root = 'http://api.lvh.me:3000/v1/';
+import Study from './Study.js';
 
-class ImagesContainer extends React.Component {
+class StudiesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
 
@@ -15,7 +15,7 @@ class ImagesContainer extends React.Component {
     }
 
     componentDidMount(){
-        axios.get(url_root + 'demographics/2/dicom_studies/2')
+        axios.get(url_root + 'demographics/2/dicom_studies')
             .then(res => {
                 let studies = res.data;
                 this.setState({ studies: studies, isLoading: false });
@@ -30,29 +30,21 @@ class ImagesContainer extends React.Component {
                 </div>
             );
         else
-        return (
-            <div className="image-container">
-                <p>{this.state.studies.description}</p>
-                <p>{this.state.studies.modality}</p>
-                {this.state.studies.dicom_series.map((series) =>
-                <div key={series.id}>
-                    {series.dicom_images.map((image) =>
-                    <div key={image.id} className="image">
-                        <video autoPlay loop>
-                            <source type="video/mp4" src={image.image_uri}/>
-                        </video>
+            return (
+                <div className="image-container">
+                    {this.state.studies.map((study) =>
+                    <div key={study.id} className="patient-container">
+                        <Study study={study} onClick={this.props.onStudySelect}/>
                     </div>
                     )}
                 </div>
-                )}
-            </div>
-        );
+            );
     }
 }
 
-ImagesContainer.propTypes = {
+StudiesContainer.propTypes = {
     //myProp: PropTypes.string.isRequired
 };
 
 
-export default ImagesContainer;
+export default StudiesContainer;
